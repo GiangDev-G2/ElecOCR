@@ -25,6 +25,12 @@ dev = [
   "pytest-cov>=6.2,<7",
   "ruff>=0.12,<1",
 ]
+training = [
+  "albumentations>=1.4,<3",
+  "pyyaml>=6.0,<7",
+  "torch>=2.4,<3",
+  "ultralytics>=8.3,<9",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["backend"]
@@ -40,6 +46,22 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 python_version = "3.12"
 strict = true
 packages = ["backend"]
+
+[[tool.mypy.overrides]]
+module = [
+  "torch",
+  "torch.*",
+  "ultralytics",
+  "ultralytics.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+  "backend.ai.models.crnn",
+  "backend.ai.training.dataset",
+]
+disallow_subclassing_any = false
 
 [tool.pytest.ini_options]
 testpaths = ["backend/tests"]

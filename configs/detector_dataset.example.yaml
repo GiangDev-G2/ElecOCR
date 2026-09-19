@@ -1,0 +1,8 @@
+# Example YOLO format dataset configuration for display detector
+# Class 0: display (meter reading display area)
+path: ../data/processed/detector_dataset
+train: images/train
+val: images/val
+
+names:
+  0: display
