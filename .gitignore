@@ -1,0 +1,126 @@
+# ==========================================
+# 1. TÀI LIỆU (DOCUMENTS)
+# ==========================================
+docs/
+*.pdf
+*.doc
+*.docx
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+*.csv
+
+# ==========================================
+# 2. AI / MÔ HÌNH & DỮ LIỆU HUẤN LUYỆN
+# ==========================================
+# Dữ liệu ảnh và dataset
+data/raw/
+data/interim/
+data/processed/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Model weights & Checkpoints
+models/
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.bin
+*.engine
+*.tflite
+*.ckpt
+*.weights
+*.h5
+*.pkl
+
+# Training runs, logs & experiment tracking
+runs/
+wandb/
+lightning_logs/
+mlruns/
+events.out.tfevents.*
+artifacts/
+
+# ==========================================
+# 3. PYTHON ENVIRONMENT & CACHE
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing, typecheck & linting caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+
+# Build & packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ==========================================
+# 4. FRONTEND / NODE
+# ==========================================
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/.cache/
+frontend/.env.local
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# 5. MÔI TRƯỜNG, LOGS & SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+*.log
+*.pem
+*.key
+
+# ==========================================
+# 6. FILE RÁC HỆ ĐIỀU HÀNH & IDE
+# ==========================================
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project

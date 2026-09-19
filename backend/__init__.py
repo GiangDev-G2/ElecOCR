@@ -1,0 +1,1 @@
+"""ElecOCR backend package."""

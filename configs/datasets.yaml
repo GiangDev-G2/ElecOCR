@@ -1,0 +1,29 @@
+datasets:
+  yuva_eb_mathworks_subset:
+    status: downloaded
+    purpose: digital_meter_baseline
+    source_page: https://www.mathworks.com/help/vision/ug/train-custom-ocr-model-to-detect-seven-segment-digits.html
+    archive_url: https://ssd.mathworks.com/supportfiles/vision/data/7SegmentImages.zip
+    upstream_doi: 10.17632/fnn44p4mj8.1
+    license: CC0-1.0
+    archive_sha256: 974e88d1480c13ab3babe3a728d2d81e8be8c6e50ff9e29205c76abdf4d10a25
+    expected_images: 119
+    local_archive: data/raw/yuva_eb/7SegmentImages.zip
+    local_images: data/raw/yuva_eb/extracted/7SegmentImages
+    notes: MathWorks mirror contains the 119-image training subset, not all 169 upstream images.
+
+  ufpr_amr:
+    status: access_request_required
+    purpose: mechanical_meter_detection_and_recognition
+    source_page: https://web.inf.ufpr.br/vri/databases/ufpr-amr/
+    license: academic-research-only
+    expected_images: 2000
+    notes: Requires an institutional email request and acceptance of the VRI terms.
+
+  copel_amr:
+    status: signed_agreement_required
+    purpose: unconstrained_end_to_end_evaluation
+    source_page: https://web.inf.ufpr.br/vri/databases/copel-amr/
+    license: academic-non-commercial-restricted
+    expected_images: 12500
+    notes: Agreement must be signed by an authorized institutional representative.
