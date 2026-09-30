@@ -7,7 +7,7 @@ name = "elecocr"
 version = "0.1.0"
 description = "Local electricity-meter OCR backend and training tools"
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.12,<3.14"
 dependencies = [
   "fastapi>=0.116,<1",
   "numpy>=2.0,<3",
