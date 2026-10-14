@@ -9,7 +9,7 @@ export interface OcrResultView {
   reading: string | null;
   confidence: number | null;
   meterType: "mechanical" | "electronic" | "unknown";
-  decimalStyle: "dot" | "comma" | "red_digits" | "none" | "unknown";
+  decimalStyle: "dot" | "comma" | "red_digit" | "none" | "unknown";
   warnings: string[];
   totalLatencyMs: number;
   modelVersion: string;

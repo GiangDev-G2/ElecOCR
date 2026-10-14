@@ -109,10 +109,12 @@ def create_app(
         },
     )
     async def recognize(
+        request: Request,
         image: Annotated[UploadFile, File()],
         debug: Annotated[bool, Form()] = False,
     ) -> OcrResponse:
         started_at = perf_counter()
+        request_id = request.headers.get("x-request-id", str(uuid4()))
         image_bytes = await image.read(resolved_settings.max_image_bytes + 1)
         prediction = resolved_service.recognize(
             image_bytes,
@@ -121,7 +123,7 @@ def create_app(
         )
         total_ms = (perf_counter() - started_at) * 1000
         return OcrResponse(
-            request_id=str(uuid4()),
+            request_id=request_id,
             status=prediction.status,
             reading=prediction.reading,
             raw_reading=prediction.raw_reading,

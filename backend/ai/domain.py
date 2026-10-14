@@ -26,7 +26,7 @@ class DecimalStyle(StrEnum):
 
     DOT = "dot"
     COMMA = "comma"
-    RED_DIGITS = "red_digits"
+    RED_DIGIT = "red_digit"
     NONE = "none"
     UNKNOWN = "unknown"
 
@@ -42,3 +42,11 @@ class OcrPrediction:
     meter_type: MeterType = MeterType.UNKNOWN
     decimal_style: DecimalStyle = DecimalStyle.UNKNOWN
     warnings: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class RecognitionPrediction:
+    """Framework-independent output produced by a reading recognizer."""
+
+    predicted_reading: str
+    recognition_confidence: float

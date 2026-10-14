@@ -6,6 +6,13 @@ interface OcrResultProps {
   state: OcrRequestState;
 }
 
+const STATUS_PRESENTATION = {
+  ok: { tone: "success", label: "Đọc thành công" },
+  review_required: { tone: "warning", label: "Cần kiểm tra" },
+  unreadable: { tone: "error", label: "Không đọc được" },
+  error: { tone: "error", label: "Có lỗi xử lý" },
+} as const;
+
 export function OcrResult({ state }: OcrResultProps) {
   if (state.kind === "failure") {
     return (
@@ -34,11 +41,10 @@ export function OcrResult({ state }: OcrResultProps) {
   }
 
   const { result } = state;
-  const tone = result.status === "ok" ? "success" : "warning";
-  const label = result.status === "ok" ? "Đọc thành công" : "Cần kiểm tra";
+  const presentation = STATUS_PRESENTATION[result.status];
   return (
     <div className="result-content" aria-live="polite">
-      <StatusBadge tone={tone}>{label}</StatusBadge>
+      <StatusBadge tone={presentation.tone}>{presentation.label}</StatusBadge>
       <p
         className="reading"
         aria-label={`Chỉ số nhận dạng: ${result.reading ?? "không có"}`}
@@ -49,6 +55,13 @@ export function OcrResult({ state }: OcrResultProps) {
         <span>Độ tin cậy</span>
         <strong>{formatConfidence(result.confidence)}</strong>
       </div>
+      {result.warnings.length > 0 && (
+        <ul className="result-warnings" aria-label="Cảnh báo kết quả">
+          {result.warnings.map((warning) => (
+            <li key={warning}>{warning}</li>
+          ))}
+        </ul>
+      )}
       <details>
         <summary>Chi tiết kỹ thuật</summary>
         <dl className="technical-list">

@@ -106,7 +106,7 @@ export interface components {
          * @description Observed visual representation of the fractional part.
          * @enum {string}
          */
-        DecimalStyle: "dot" | "comma" | "red_digits" | "none" | "unknown";
+        DecimalStyle: "dot" | "comma" | "red_digit" | "none" | "unknown";
         /** HealthResponse */
         HealthResponse: {
             /** Status */

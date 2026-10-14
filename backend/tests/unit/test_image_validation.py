@@ -42,3 +42,12 @@ def test_decode_image_with_invalid_bytes_raises_error() -> None:
             media_type="image/png",
             max_image_side_px=100,
         )
+
+
+def test_decode_image_with_mismatched_media_type_raises_error() -> None:
+    with pytest.raises(UnsupportedImageError):
+        decode_and_canonicalize_image(
+            _png_bytes(),
+            media_type="image/jpeg",
+            max_image_side_px=100,
+        )

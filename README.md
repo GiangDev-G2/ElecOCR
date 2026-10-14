@@ -10,7 +10,7 @@ Pipeline MVP được chốt theo luồng tối giản: canonicalize ảnh → p
 
 ## Chạy local
 
-Yêu cầu: Python 3.12, Node.js/npm và Windows PowerShell.
+Yêu cầu: Python 3.12, Node.js 24.16.x, npm 11.13.x và Windows PowerShell.
 
 ```powershell
 py -3.12 -m venv .venv

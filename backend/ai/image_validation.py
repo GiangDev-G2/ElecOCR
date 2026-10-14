@@ -10,6 +10,11 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from backend.ai.errors import ImageTooLargeError, InvalidImageError, UnsupportedImageError
 
 SUPPORTED_MEDIA_TYPES = frozenset({"image/jpeg", "image/png", "image/webp"})
+IMAGE_FORMATS_BY_MEDIA_TYPE = {
+    "image/jpeg": frozenset({"JPEG"}),
+    "image/png": frozenset({"PNG"}),
+    "image/webp": frozenset({"WEBP"}),
+}
 
 
 def decode_and_canonicalize_image(
@@ -26,6 +31,10 @@ def decode_and_canonicalize_image(
         with catch_warnings():
             simplefilter("error", Image.DecompressionBombWarning)
             with Image.open(BytesIO(image_bytes)) as decoded_image:
+                if decoded_image.format not in IMAGE_FORMATS_BY_MEDIA_TYPE[media_type]:
+                    raise UnsupportedImageError(
+                        "The declared media type does not match the decoded image format."
+                    )
                 decoded_image.load()
                 oriented_image = ImageOps.exif_transpose(decoded_image)
                 if max(oriented_image.size) > max_image_side_px:
@@ -34,7 +43,7 @@ def decode_and_canonicalize_image(
                     )
                 rgb_image = oriented_image.convert("RGB")
                 source_image = np.asarray(rgb_image, dtype=np.uint8)
-    except ImageTooLargeError:
+    except (ImageTooLargeError, UnsupportedImageError):
         raise
     except (Image.DecompressionBombError, Image.DecompressionBombWarning) as error:
         raise ImageTooLargeError("The image exceeds safe pixel limits.") from error

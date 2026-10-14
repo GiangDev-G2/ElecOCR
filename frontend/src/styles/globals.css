@@ -286,6 +286,11 @@ summary:focus-visible {
 .result-metadata strong {
   color: var(--color-text);
 }
+.result-warnings {
+  margin: 18px 0 0;
+  padding-left: 20px;
+  color: var(--color-warning);
+}
 details {
   width: 100%;
   margin-top: auto;

@@ -1,9 +1,7 @@
 """Unit tests for CRNN architecture, CTC decoding, and pipeline integration."""
 
-import numpy as np
 import torch
 
-from backend.ai.domain import OcrStatus
 from backend.ai.models.crnn import (
     CHARSET,
     NUM_CLASSES,
@@ -12,7 +10,7 @@ from backend.ai.models.crnn import (
     decode_token_indices,
     encode_reading,
 )
-from backend.ai.pipeline import CrnnOcrPipeline
+from backend.ai.pipeline import CrnnCropRecognizer
 from backend.ai.training.train_recognizer import calculate_metrics
 
 
@@ -72,12 +70,15 @@ def test_calculate_metrics_exact_match() -> None:
     assert metrics["character_error_rate"] > 0.0
 
 
-def test_crnn_ocr_pipeline_predict() -> None:
-    model = CrnnRecognizer(in_channels=3)
-    pipeline = CrnnOcrPipeline(model=model)
-    assert pipeline.is_ready is True
-    assert "crnn" in pipeline.model_version
+def test_crnn_crop_recognizer_returns_recognition_prediction() -> None:
+    import numpy as np
 
-    dummy_image = np.zeros((32, 160, 3), dtype=np.uint8)
-    prediction = pipeline.predict(dummy_image, debug=False)
-    assert prediction.status in (OcrStatus.OK, OcrStatus.REVIEW_REQUIRED, OcrStatus.UNREADABLE)
+    model = CrnnRecognizer(in_channels=3)
+    recognizer = CrnnCropRecognizer(model=model)
+    assert "crnn" in recognizer.model_version
+
+    display_crop = np.zeros((32, 160, 3), dtype=np.uint8)
+    prediction = recognizer.recognize_reading(display_crop)
+
+    assert isinstance(prediction.predicted_reading, str)
+    assert 0.0 <= prediction.recognition_confidence <= 1.0

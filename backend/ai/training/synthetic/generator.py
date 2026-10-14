@@ -44,6 +44,7 @@ class SyntheticGenerator:
 
     def __init__(self, seed: int = 42) -> None:
         self._rng = random.Random(seed)
+        self._numpy_rng = np.random.default_rng(seed)
 
     def _draw_seven_segment_digit(
         self,
@@ -249,7 +250,7 @@ class SyntheticGenerator:
         current_x = padding_x
         for idx, digit in enumerate(full_digits):
             is_decimal_wheel = idx >= decimal_start_idx and decimal_start_idx != -1
-            is_red_style = is_decimal_wheel and decimal_style == DecimalStyle.RED_DIGITS
+            is_red_style = is_decimal_wheel and decimal_style == DecimalStyle.RED_DIGIT
 
             if is_red_style:
                 # Red background wheel with white text
@@ -534,7 +535,11 @@ class SyntheticGenerator:
         # Random noise
         if self._rng.random() < 0.4:
             arr = np.array(augmented, dtype=np.int16)
-            noise = np.random.normal(0, self._rng.uniform(2.0, 6.0), arr.shape).astype(np.int16)
+            noise = self._numpy_rng.normal(
+                0,
+                self._rng.uniform(2.0, 6.0),
+                arr.shape,
+            ).astype(np.int16)
             arr = np.clip(arr + noise, 0, 255).astype(np.uint8)
             augmented = Image.fromarray(arr)
 
@@ -562,7 +567,7 @@ class SyntheticGenerator:
             if chosen_meter_type == MeterType.MECHANICAL:
                 chosen_decimal_style = self._rng.choice(
                     [
-                        DecimalStyle.RED_DIGITS,
+                        DecimalStyle.RED_DIGIT,
                         DecimalStyle.COMMA,
                         DecimalStyle.DOT,
                         DecimalStyle.NONE,
@@ -583,7 +588,7 @@ class SyntheticGenerator:
             decimal_part: str | None = str(self._rng.randint(0, 9))
             if chosen_decimal_style == DecimalStyle.COMMA:
                 reading_raw = f"{integer_value},{decimal_part}"
-            elif chosen_decimal_style == DecimalStyle.RED_DIGITS:
+            elif chosen_decimal_style == DecimalStyle.RED_DIGIT:
                 reading_raw = f"{integer_value}{decimal_part}"
             else:
                 reading_raw = f"{integer_value}.{decimal_part}"

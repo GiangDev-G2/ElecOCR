@@ -68,6 +68,7 @@ export function useOcrController() {
 
   const clearImage = useCallback(() => {
     activeRequest.current?.abort();
+    activeRequest.current = null;
     setSelectedImage(null);
     setPreviewUrl(null);
     setRequestState({ kind: "idle" });
@@ -75,6 +76,7 @@ export function useOcrController() {
 
   const selectImage = useCallback((file: File | null) => {
     activeRequest.current?.abort();
+    activeRequest.current = null;
     setRequestState({ kind: "idle" });
     if (file === null) {
       setSelectedImage(null);
@@ -82,6 +84,8 @@ export function useOcrController() {
       return;
     }
     if (!SUPPORTED_MEDIA_TYPES.has(file.type)) {
+      setSelectedImage(null);
+      setPreviewUrl(null);
       setRequestState({
         kind: "failure",
         message: "Chỉ hỗ trợ JPG, PNG hoặc WebP.",
@@ -89,6 +93,8 @@ export function useOcrController() {
       return;
     }
     if (file.size > MAX_UPLOAD_BYTES) {
+      setSelectedImage(null);
+      setPreviewUrl(null);
       setRequestState({
         kind: "failure",
         message: "Ảnh vượt quá giới hạn 12 MB.",
@@ -113,6 +119,9 @@ export function useOcrController() {
         result: presentOcrResponse(response),
       });
     } catch (error: unknown) {
+      if (controller.signal.aborted) {
+        return;
+      }
       const message =
         error instanceof ApiClientError ? error.message : "Không thể đọc ảnh.";
       setRequestState({ kind: "failure", message });
